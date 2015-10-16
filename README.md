@@ -2,7 +2,7 @@
 
 It is a simple Brainfuck interpreter written in Julia. Why? Because we can!
 
-While developing the interpreter, I'll be using the table below.
+While developing the interpreter, I'll be using the table below:
 
 Brainfuck command | C equivalent
 ---------         | ------------
