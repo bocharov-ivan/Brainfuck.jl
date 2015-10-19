@@ -55,5 +55,3 @@ function build_brace_map(code::String)
   end
   return brace_map, reverse_brace_map
 end
-
-build_brace_map("+++++[>+++++[>++++<-]<-]>>+++.--..++++++.")
