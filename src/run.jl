@@ -48,6 +48,8 @@ function run(program_text::String, brace_map::Dict{Int64, Int64},
   return tape
 end
 
-code = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
-brace_map, reverse_brace_map = build_brace_map(code)
-run(code, brace_map, reverse_brace_map)
+program_text = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
+flag, code, brace_map, reverse_brace_map = parse(program_text)
+if flag
+  run(code, brace_map, reverse_brace_map)
+end
