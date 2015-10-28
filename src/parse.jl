@@ -1,10 +1,9 @@
 using Match
 
-function strip_comments(program_text::String)
+function strip_comments(program_text::AbstractString)
   language_symbols = ['<', '>', '+', '-', '.', ',', '[', ']']
   stripped_text = filter(x -> x in language_symbols, program_text)
 end
-
 
 function safe_pop!(stack)
   try
@@ -15,7 +14,7 @@ function safe_pop!(stack)
   end
 end
 
-function check_sanity(program_text::String)
+function check_sanity(program_text::AbstractString)
   parentheses = Char[]
   code = strip_comments(program_text)
   for command in code
@@ -35,7 +34,7 @@ function check_sanity(program_text::String)
   return true, code
 end
 
-function build_brace_map(code::String)
+function build_brace_map(code::AbstractString)
   pointer = 0
   braces = Int64[]
   brace_map = Dict{Int64, Int64}()

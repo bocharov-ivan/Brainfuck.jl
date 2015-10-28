@@ -1,5 +1,6 @@
 using Match
 include("parse.jl")
+export run
 
 function pointer_inc!(pointer, tape)
   pointer += 1
@@ -12,12 +13,12 @@ end
 function pointer_dec!(pointer)
   pointer -= 1
   if pointer < 1
-    pointer = 1
+      pointer = 1
   end
   pointer
 end
 
-function run(program_text::String, brace_map::Dict{Int64, Int64},
+function execute(program_text::AbstractString, brace_map::Dict{Int64, Int64},
   reverse_brace_map::Dict{Int64, Int64})
 
   tape = Char[]
@@ -48,6 +49,10 @@ function run(program_text::String, brace_map::Dict{Int64, Int64},
   return tape
 end
 
+function run(program_text::ASCIIString)
+    brace_map, reverse_brace_map = build_brace_map(program_text)
+    execute(program_text, brace_map, reverse_brace_map)
+end
+
 code = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
-brace_map, reverse_brace_map = build_brace_map(code)
-run(code, brace_map, reverse_brace_map)
+run(code)
