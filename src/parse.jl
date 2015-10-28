@@ -7,34 +7,13 @@ end
 
 function safe_pop!(stack)
   try
-    pop!(stack)
-    return true
+    return pop!(stack)
   catch e
-    return false
+    return nothing
   end
 end
 
-function check_sanity(program_text::AbstractString)
-  parentheses = Char[]
-  code = strip_comments(program_text)
-  for command in code
-    @match command begin
-      '[' => push!(parentheses, '[')
-      ']' => if safe_pop!(parentheses)
-              else
-                println("Parentheses are unbalanced")
-                return false, nothing
-              end
-    end
-  end
-  if ~isempty(parentheses)
-    println("Parentheses are unbalanced")
-    return false, nothing
-  end
-  return true, code
-end
-
-function build_brace_map(code::AbstractString)
+function parse(code::AbstractString)
   pointer = 0
   braces = Int64[]
   brace_map = Dict{Int64, Int64}()
@@ -45,12 +24,23 @@ function build_brace_map(code::AbstractString)
     @match command begin
       '[' => push!(braces, pointer)
       ']' =>
-            begin
-              loop_start = pop!(braces)
-              brace_map[loop_start] = pointer
-              reverse_brace_map[pointer] = loop_start
+          begin
+            loop_start = safe_pop!(braces)
+              if loop_start != nothing
+                brace_map[loop_start] = pointer
+                reverse_brace_map[pointer] = loop_start
+              else
+                  println("Braces are unbalanced")
+                  return false, nothing, nothing, nothing
+              end
             end
     end
   end
-  return brace_map, reverse_brace_map
+
+  if ~isempty(braces)
+    println("Braces are unbalanced")
+    return false, nothing, nothing, nothing
+  end
+
+  return true, code, brace_map, reverse_brace_map
 end

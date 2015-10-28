@@ -49,10 +49,11 @@ function execute(program_text::AbstractString, brace_map::Dict{Int64, Int64},
   return tape
 end
 
+
 function run(program_text::ASCIIString)
-    brace_map, reverse_brace_map = build_brace_map(program_text)
-    execute(program_text, brace_map, reverse_brace_map)
+    flag, code, brace_map, reverse_brace_map = parse(program_text)
+    if flag
+        execute(code, brace_map, reverse_brace_map)
+    end
 end
 
-code = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
-run(code)
